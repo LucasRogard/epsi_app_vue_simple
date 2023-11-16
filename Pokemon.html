@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js Rocket League API Example</title>
+</head>
+<body>
+    <div id="demo">
+        <h1>Pokemon</h1>
+        <div v-if="apiData">
+            <p>Id: {{ apiData.pokedexId }}</p>
+            <p>Name: {{ apiData.name.fr }}</p>
+            <img src="https://raw.githubusercontent.com/Yarkis01/PokeAPI/images/sprites/1/regular.png" alt="pokemon">
+        </div>
+        <div v-else>
+            <p>Chargement...</p>
+        </div>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        const apiUrl = "https://tyradex.tech/api/v1/pokemon/1";
+        const config = {};  
+        Vue.createApp({
+            data() {
+                return {
+                    apiData: null
+                };
+            },
+            mounted() {
+                this.fetchData();
+            },
+            methods: {
+                fetchData() {
+                    axios.get(apiUrl, { config })
+                        .then(response => {
+                            this.apiData = response.data;
+                        })
+                        .catch(error => {
+                            console.error("Erreur de requête Axios:", error);
+                        });
+                }
+            }
+        }).mount("#demo");
+    </script>
+</body>
+</html>
